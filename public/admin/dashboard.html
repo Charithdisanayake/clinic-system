@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinic Dashboard</title>
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="topbar">
+    <h1 id="welcome">Clinic Dashboard</h1>
+    <button class="btn-secondary" id="logout-btn">Log out</button>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab active" data-panel="appointments-panel">Appointments</button>
+    <button class="tab" data-panel="clients-panel">Clients</button>
+    <button class="tab" data-panel="treatments-panel">Treatments & Pricing</button>
+  </nav>
+
+  <!-- APPOINTMENTS -->
+  <section class="panel active" id="appointments-panel">
+    <div class="panel-header"><h2>Appointments</h2></div>
+    <form class="inline-form" id="appt-form">
+      <div class="field">
+        <label>Client</label>
+        <select id="appt-client" required></select>
+      </div>
+      <div class="field">
+        <label>Doctor</label>
+        <select id="appt-doctor" required></select>
+      </div>
+      <div class="field">
+        <label>Treatment</label>
+        <select id="appt-treatment" required></select>
+      </div>
+      <div class="field">
+        <label>Starts</label>
+        <input type="datetime-local" id="appt-start" required>
+      </div>
+      <div class="field">
+        <label>Ends</label>
+        <input type="datetime-local" id="appt-end" required>
+      </div>
+      <button type="submit" class="btn-primary">Add appointment</button>
+    </form>
+    <p class="error-text hidden" id="appt-error"></p>
+    <table>
+      <thead><tr><th>When</th><th>Client</th><th>Treatment</th><th>Doctor</th><th>Status</th><th></th></tr></thead>
+      <tbody id="appt-rows"></tbody>
+    </table>
+  </section>
+
+  <!-- CLIENTS -->
+  <section class="panel" id="clients-panel">
+    <div class="panel-header"><h2>Clients</h2></div>
+    <form class="inline-form" id="client-form">
+      <div class="field"><label>Full name</label><input id="client-name" required></div>
+      <div class="field"><label>Phone</label><input id="client-phone"></div>
+      <div class="field"><label>Email</label><input id="client-email" type="email"></div>
+      <div class="field"><label>Notes</label><input id="client-notes" placeholder="Allergies, preferences…"></div>
+      <button type="submit" class="btn-primary">Add client</button>
+    </form>
+    <table>
+      <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Notes</th></tr></thead>
+      <tbody id="client-rows"></tbody>
+    </table>
+  </section>
+
+  <!-- TREATMENTS -->
+  <section class="panel" id="treatments-panel">
+    <div class="panel-header"><h2>Treatments & pricing</h2></div>
+    <form class="inline-form" id="treatment-form">
+      <div class="field"><label>Category</label><input id="t-category" required></div>
+      <div class="field"><label>Name</label><input id="t-name" required></div>
+      <div class="field"><label>Price (USD)</label><input id="t-price" type="number" step="0.01" min="0" required></div>
+      <div class="field"><label>Duration (min)</label><input id="t-duration" type="number" min="1" required></div>
+      <button type="submit" class="btn-primary">Add treatment</button>
+    </form>
+    <table>
+      <thead><tr><th>Category</th><th>Name</th><th>Price</th><th>Duration</th><th>Visible on menu</th><th></th></tr></thead>
+      <tbody id="treatment-rows"></tbody>
+    </table>
+  </section>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

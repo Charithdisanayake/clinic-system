@@ -1,0 +1,19 @@
+{
+  "name": "clinic-system",
+  "version": "1.0.0",
+  "description": "Skin & aesthetic clinic web system - public pricing page + staff admin dashboard",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "psql \"$DATABASE_URL\" -f db/schema.sql && psql \"$DATABASE_URL\" -f db/seed.sql"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "connect-pg-simple": "^9.0.1",
+    "pg": "^8.12.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5"
+  }
+}

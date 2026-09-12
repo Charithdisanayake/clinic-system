@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treatment Menu</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>Our treatment menu</h1>
+      <p>Every price below is what you'll pay at the front desk. Ready to book? Call or message us and we'll find a time that works.</p>
+    </header>
+
+    <main id="menu">
+      <p class="empty-state">Loading treatments…</p>
+    </main>
+
+    <footer>
+      To book an appointment, call or WhatsApp the clinic directly.
+    </footer>
+  </div>
+
+  <script>
+    function formatPrice(cents) {
+      return (cents / 100).toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+    }
+
+    function formatDuration(minutes) {
+      if (minutes < 60) return minutes + ' min';
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      return m ? `${h}h ${m}m` : `${h}h`;
+    }
+
+    async function loadMenu() {
+      const menu = document.getElementById('menu');
+      try {
+        const res = await fetch('/api/public/treatments');
+        if (!res.ok) throw new Error('Failed to load');
+        const treatments = await res.json();
+
+        if (treatments.length === 0) {
+          menu.innerHTML = '<p class="empty-state">The treatment menu isn\'t available right now. Please check back soon.</p>';
+          return;
+        }
+
+        const byCategory = {};
+        for (const t of treatments) {
+          (byCategory[t.category] ||= []).push(t);
+        }
+
+        menu.innerHTML = Object.entries(byCategory).map(([category, items]) => `
+          <section class="category">
+            <h2>${escapeHtml(category)}</h2>
+            ${items.map(t => `
+              <div class="treatment">
+                <div class="treatment-info">
+                  <h3>${escapeHtml(t.name)}</h3>
+                  ${t.description ? `<p>${escapeHtml(t.description)}</p>` : ''}
+                </div>
+                <div class="treatment-meta">
+                  <span class="treatment-price">${formatPrice(t.price_cents)}</span>
+                  <span class="treatment-duration">${formatDuration(t.duration_minutes)}</span>
+                </div>
+              </div>
+            `).join('')}
+          </section>
+        `).join('');
+      } catch (err) {
+        menu.innerHTML = '<p class="empty-state">Something went wrong loading the menu. Please refresh, or contact us directly.</p>';
+      }
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    loadMenu();
+  </script>
+</body>
+</html>
