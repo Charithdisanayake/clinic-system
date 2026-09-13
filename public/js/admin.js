@@ -6,7 +6,7 @@ async function api(path, options = {}) {
     ...options,
   });
   if (res.status === 401) {
-    window.location.href = '/admin/login.html';
+    window.location.href = '/admin/login';
     throw new Error('Not authenticated');
   }
   return res;
@@ -30,7 +30,7 @@ async function init() {
 
   document.getElementById('logout-btn').addEventListener('click', async () => {
     await api('/api/auth/logout', { method: 'POST' });
-    window.location.href = '/admin/login.html';
+    window.location.href = '/admin/login';
   });
 
   setupTabs();

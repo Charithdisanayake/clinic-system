@@ -46,6 +46,12 @@ app.use('/api/admin/doctors', doctorRoutes);
 // public/index.html and public/css/* are the customer-facing pricing page.
 // public/admin/* is the staff dashboard shell (its data comes from the
 // /api/admin/* routes above, which enforce login independently of this).
+app.get('/admin/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'admin', 'login.html'));
+});
+app.get('/admin/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'admin', 'dashboard.html'));
+});
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Centralized error handler -- keeps stack traces out of API responses.
