@@ -56,9 +56,12 @@
             <h2>${escapeHtml(category)}</h2>
             ${items.map(t => `
               <div class="treatment">
-                <div class="treatment-info">
-                  <h3>${escapeHtml(t.name)}</h3>
-                  ${t.description ? `<p>${escapeHtml(t.description)}</p>` : ''}
+                <div class="treatment-main">
+                  ${t.image_path ? `<img class="treatment-image" src="${escapeHtml(t.image_path)}" alt="${escapeHtml(t.name)}" loading="lazy">` : ''}
+                  <div class="treatment-info">
+                    <h3>${escapeHtml(t.name)}</h3>
+                    ${t.description ? `<p>${escapeHtml(t.description)}</p>` : ''}
+                  </div>
                 </div>
                 <div class="treatment-meta">
                   <span class="treatment-price">${formatPrice(t.price_cents)}</span>

@@ -27,6 +27,7 @@ CREATE TABLE treatments (
     duration_minutes INTEGER NOT NULL CHECK (duration_minutes > 0),
     active           BOOLEAN NOT NULL DEFAULT true,  -- inactive = hidden from public page
     display_order    INTEGER NOT NULL DEFAULT 0,
+    image_path       TEXT,                    -- e.g. '/uploads/treatments/<uuid>.jpg', set via upload endpoint
     updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

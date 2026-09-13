@@ -54,6 +54,25 @@ public/index.html        public pricing page
 public/admin/*.html      staff login + dashboard
 ```
 
+## Treatment images
+
+Staff can upload a photo per treatment from the dashboard (Treatments &
+Pricing tab -> "Add photo" / "Replace"). It shows up as a thumbnail next to
+that treatment on the public pricing page.
+
+- **If you already ran `db/schema.sql` before this feature existed**, apply
+  the migration once: `psql "your-connection-string" -f db/migrations/001_add_treatment_images.sql`.
+  Fresh installs don't need this -- `schema.sql` already includes the column.
+- Files are validated server-side (JPEG/PNG/WEBP only, 5MB max) and saved
+  with a randomly generated filename to `public/uploads/treatments/` --
+  never trust a browser-supplied filename or extension.
+- Uploaded files are **not** committed to git (see `.gitignore`) and are
+  **not** included when you zip/deploy this project manually -- if you
+  move servers, copy `public/uploads/` over separately, or better, move to
+  object storage (S3/R2) once you outgrow a single server.
+- Replacing or removing a photo deletes the old file from disk so orphaned
+  images don't pile up.
+
 ## Security notes (read this before deploying)
 
 This is the part that matters more than performance at this scale:

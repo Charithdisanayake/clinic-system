@@ -95,6 +95,13 @@ async function loadTreatments() {
   const tbody = document.getElementById('treatment-rows');
   tbody.innerHTML = treatmentCache.map((t) => `
     <tr>
+      <td>
+        ${t.image_path ? `<img class="thumb" src="${escapeHtml(t.image_path)}" alt="${escapeHtml(t.name)}">` : '<span class="thumb-placeholder"></span>'}
+        <label class="file-input-label">
+          <input type="file" accept="image/jpeg,image/png,image/webp" data-image="${t.id}" hidden>
+          ${t.image_path ? 'Replace' : 'Add photo'}
+        </label>
+      </td>
       <td>${escapeHtml(t.category)}</td>
       <td>${escapeHtml(t.name)}</td>
       <td>${money(t.price_cents)}</td>
@@ -102,7 +109,21 @@ async function loadTreatments() {
       <td>${t.active ? 'Yes' : 'No'}</td>
       <td><button class="btn-secondary" data-toggle="${t.id}">${t.active ? 'Hide' : 'Show'}</button></td>
     </tr>
-  `).join('') || '<tr><td colspan="6">No treatments yet.</td></tr>';
+  `).join('') || '<tr><td colspan="7">No treatments yet.</td></tr>';
+
+  tbody.querySelectorAll('[data-image]').forEach((input) => {
+    input.addEventListener('change', async () => {
+      if (!input.files[0]) return;
+      const formData = new FormData();
+      formData.append('image', input.files[0]);
+      await api(`/api/admin/treatments/${input.dataset.image}/image`, {
+        method: 'POST',
+        headers: {},
+        body: formData,
+      });
+      await loadTreatments();
+    });
+  });
 
   tbody.querySelectorAll('[data-toggle]').forEach((btn) => {
     btn.addEventListener('click', async () => {

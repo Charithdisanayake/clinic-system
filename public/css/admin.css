@@ -173,6 +173,32 @@ tr:last-child td { border-bottom: none; }
 
 .hidden { display: none; }
 
+.thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.thumb-placeholder {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  border-radius: 3px;
+  border: 1px dashed var(--line);
+  vertical-align: middle;
+}
+
+.file-input-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: var(--sage);
+  cursor: pointer;
+  margin-left: 8px;
+}
+
 .status-badge {
   padding: 2px 8px;
   font-size: 0.78rem;

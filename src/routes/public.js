@@ -9,7 +9,7 @@ const router = express.Router();
 // leak onto the public pricing page.
 router.get('/treatments', async (req, res) => {
   const { rows } = await pool.query(
-    `SELECT id, category, name, description, price_cents, duration_minutes
+    `SELECT id, category, name, description, price_cents, duration_minutes, image_path
      FROM treatments
      WHERE active = true
      ORDER BY category, display_order, name`
